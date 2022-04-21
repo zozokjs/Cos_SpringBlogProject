@@ -8,7 +8,9 @@ let index = {
 			this.save();
 		});
 		
-		
+		$("#btn-update").on("click", () => { //화살표 함수 왜 씀? this를 바인딩하려고
+			this.update();
+		});
 	},
 	
 	
@@ -45,8 +47,39 @@ let index = {
 			alert(JSON.stringify(error));
 		});
 		
-	}
+	},
 	
+	// 회원정보 수정 처리
+	update: function() {
+		//alert("함수 호출");
+
+		let data = {
+			id : $("#id").val(),
+			password: $("#password").val(),
+			email: $("#email").val()
+		}
+		
+		//console.log(data);
+
+		$.ajax({
+
+			type : "PUT",
+			url : "/user",
+			data : JSON.stringify(data),
+			contentType :  "application/json; charset=utf-8",
+			dataType : "json" 
+		}).done(function(response){
+			//성공
+			alert("회원 수정 완료 됨");
+			//alert(response);
+			console.log(response);
+			location.href = "/";
+		}).fail(function(error){
+			//실패
+			alert(JSON.stringify(error));
+		});
+		
+	}
 	
 	// 시큐리티 없이 로그인 하기
 	/**

@@ -34,7 +34,7 @@ spring:
 #use-new-id-generator-mappings
 #이걸 true로 하면 (sql에서) jpa가 제공하는 기본 넘버링 전략을 사용한다는 의미     
 
-    show-sql: true
+    show-sql: false
 #  show-sql
 #  true -> 콘솔 창에 실행 결과를 보여준다.
     properties:

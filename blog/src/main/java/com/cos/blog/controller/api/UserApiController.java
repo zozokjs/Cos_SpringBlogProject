@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -32,7 +33,16 @@ public class UserApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); //자바 오브젝트를 json으로 변환해서 리턴 해줌
 	};
 	
-	
+	@PutMapping("/user") 
+	//json 받으려면 @RequestBody
+	//x-www-form-urlencoded(key-value) 형태로 받으려면 @RequestBody 없어야 함.
+	public ResponseDto<Integer> update(@RequestBody User user){
+		
+			userService.회원수정(user);
+					
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
+
+	}
 	
 	
 	

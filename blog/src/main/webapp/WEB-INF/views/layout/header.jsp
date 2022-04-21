@@ -4,7 +4,12 @@
 
 
 <!-- 시큐리티에서 로그인 인증 되면 isAuthenticated()가 작동하면서 
-시큐리티 세션이 principal 변수에 들어간다.-->
+시큐리티 세션이 property라고 명시한 곳에 들어가고 
+그것이 principal 변수에 들어가 동일한 역할을 하게 됨.-->
+<!-- auth 폴더에 있는 PrincipaDetail.java 클래스가 principal 변수에 들어가는 것임 
+그래서 PricipalDetail 클래스에 User 오브젝트가 정의되어 있으므로
+pricipal.user하면 User 오브젝트에 접근 가능
+-->
 <sec:authorize access="isAuthenticated()">
 	<sec:authentication property="principal" var="principal"/>
 </sec:authorize>
