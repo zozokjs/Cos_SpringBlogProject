@@ -43,7 +43,7 @@ public class Board {
 	@Lob // 대용량 데이터가 들어가는 컬럼에 씀
 	private String content;
 	
-	@ColumnDefault("0") //integer가 될거라서 홑따옴표가 없음. varchar로 만들거면 홑따옴표를 붙여야 함
+	//@ColumnDefault("0") //integer가 될거라서 홑따옴표가 없음. varchar로 만들거면 홑따옴표를 붙여야 함
 	private int count ; //조회수
 	
 	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) //LAZY는 필요할 때만 들고 오라는 전략 

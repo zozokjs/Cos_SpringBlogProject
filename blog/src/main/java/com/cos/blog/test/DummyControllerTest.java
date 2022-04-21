@@ -32,7 +32,7 @@ public class DummyControllerTest {
 	@Autowired //의존성 주입된다.
 	private UserRepository userRepository;
 
-	
+	//삭제
 	@DeleteMapping("/dummy/user/{id}")
 	public String delete(@PathVariable int id) {
 		try {
@@ -48,10 +48,10 @@ public class DummyControllerTest {
 	
 	
 	
+	//업데이트
 	//Postman으로 json 데이터 만들어서 put 요청함.
 	//json으로 요청 했는데, 스프링에서 messageConverter가 jackson 라이브러리 사용해서
-	//자바 오브젝트로 변환해서 출력해줬음. 이때 @RequestBody를 쓴다.
-	
+	//자바 오브젝트로 변환해서 출력해줬음. 이때 @RequestBody를 쓴다.	
 	@Transactional
 	@PutMapping("/dummy/user/{id}")
 	public User updateUser(@PathVariable int id, @RequestBody User requestUser) {
@@ -89,7 +89,7 @@ public class DummyControllerTest {
 	}
 	
 
-	
+	//페이징
 	// 1페이지 당 2건의 데이터 리턴하여 페이징 할 것임
 	// 2건씩, id 기준으로 정렬하되, 최신순으로
 	// http://localhost:8000/blog/dummy/user?page=0
@@ -103,7 +103,7 @@ public class DummyControllerTest {
 	
 	
 	
-	
+	// select
 	// {id}주소로 파라미터를 전달 받을 수 있음
 	// http://localhost:8000/blog/dummy/user/3
 	@GetMapping("/dummy/user/{id}")
@@ -136,7 +136,7 @@ public class DummyControllerTest {
 	}
 	
 	
-	
+	//save
 	// http://localhost:8000/blog/dummy/join으로 요청
 	//http의 body에 username, pasword, email 데이터를 갖고 요청.
 	@PostMapping("/dummy/join")

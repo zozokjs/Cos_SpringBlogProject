@@ -37,7 +37,8 @@ public class User {
 	private int id; //auto increment
 	
 	//null이 될 수 없게 한다. 길이를 지정한다.
-	@Column(nullable = false, length = 30)
+	//unique 넣어서 중복 될 수 없게 한다.
+	@Column(nullable = false, length = 30, unique = true)
 	private String username; //아이디
 	
 	

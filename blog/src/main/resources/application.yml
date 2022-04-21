@@ -3,17 +3,17 @@
 server:
   port: 8000
   servlet:
-    context-path: /blog
+    context-path: / #주소 시작점을 세팅한다.
     encoding:
       charset: UTF-8
       enabled: true
       force: true
     
 spring:
-#  mvc:
-#    view:
-#      prefix: /WEB-INF/views/
-#      suffix: .jsp
+  mvc:
+    view:
+      prefix: /WEB-INF/views/
+      suffix: .jsp  #이렇듯 파일 확장자가 명시되어 있으므로 파일 이름만  return하면 된다.
       
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
