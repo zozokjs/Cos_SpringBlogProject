@@ -3,6 +3,10 @@ package com.cos.blog.service;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,7 +24,7 @@ public class UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder encoder;
-	
+
 	
 	@Transactional
 	public int 회원가입(User user) {
@@ -37,9 +41,7 @@ public class UserService {
 			e.printStackTrace();
 			System.out.println("UserService 회원가입 ()"+e);
 		}
-		return  -1;
-				
-				
+		return  -1;	
 	}
 	
 	
@@ -55,16 +57,39 @@ public class UserService {
 			return new IllegalArgumentException("회원 찾기 실패");
 		});
 		
-		String rawPassword = user.getPassword();
-		String encPassword = encoder.encode(rawPassword);
-		persistence.setPassword(encPassword); //영속화 된 User 오브젝트에 암호화된 비번 세팅
-		System.out.println("cpzm "+user.getEmail());
-		persistence.setEmail(user.getEmail());
+		//ouath 값이 null이거나 비어 있을 때 수정함.
+		//ouath 값이 있으면 수정 불가.
+		if(persistence.getOauth() == null || persistence.getOauth().equals("")) {
+			String rawPassword = user.getPassword();
+			String encPassword = encoder.encode(rawPassword);
+			persistence.setPassword(encPassword); //영속화 된 User 오브젝트에 암호화된 비번 세팅
+			persistence.setEmail(user.getEmail());
+		}
+		
 		// 이 함수(회원수정 함수)가 종료된다는 건 = 서비스 종료 = 트랜잭션 종료 = 자동으로 커밋 됨
 		// = 영속화 된 persistence 객체에 변화가 감지되면 더티 체킹이 이뤄져서
 		//변화된 것을 위해 update 문을 자동으로 날려준다는 것
-
+	
+	}
+	
+	
+	@Transactional(readOnly = true)
+	public User 회원찾기(String username) {
 		
+		//username으로 db에서 찾아서 없으면? 새로운 User객체 리턴
+		//findbyusername 결과가 null이면 새로운 User 객체를 리턴하고
+		//아니면 기존 user 객체에 결과를 리턴한다.
+		User user = userRepository.findByUsername(username).orElseGet(()->{
+					return new User();
+		});
+		
+		 /*
+		User user = userRepository.findByUsername(username).orElseThrow(()->{
+				return new IllegalArgumentException("회원 찾기 실패");
+			});
+		*/
+		return user;
+
 	}
 	
 	

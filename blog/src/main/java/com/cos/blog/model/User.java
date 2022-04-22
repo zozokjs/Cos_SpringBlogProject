@@ -38,11 +38,12 @@ public class User {
 	
 	//null이 될 수 없게 한다. 길이를 지정한다.
 	//unique 넣어서 중복 될 수 없게 한다.
-	@Column(nullable = false, length = 30, unique = true)
+	@Column(nullable = false, length = 100, unique = true)
 	private String username; //아이디
 	
 	
-	
+	//nullable = false하면 null이 될 수 없게 한다.
+	//password가 null 될수 있음
 	@Column(nullable = false, length = 100)
 	private String password;
 	
@@ -59,5 +60,8 @@ public class User {
 	//현재 시간이 자동으로 들어가도록 한다.
 	@CreationTimestamp
 	private Timestamp createDate;
-		
+
+	private String oauth; //kakao로그인 했으면 kakao 들어감...
+
+	
 }
