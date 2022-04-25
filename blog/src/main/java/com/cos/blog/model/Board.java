@@ -15,10 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 
 import org.hibernate.annotations.CollectionId;
 import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.CreationTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -62,7 +65,20 @@ public class Board {
 	 * 그래서 이 코드를 실행하더라도 board 테이블에 reply 컬럼은 생기지 않는다.
 	 * 단지 JOIN을 이용해 board 테이블을 select 할 때 reply 테이블 같이 select 되도록 하려고 명시하는 것임.	
 	 *  * */
-	private List<Reply> reply;
+	@JsonIgnoreProperties({"board"})
+	/*db에서 게시글 검색할 때.
+	 * 게서글에는 replys와 user 객체가 있으므로
+	 * reply와 user를 같이 들고올텐데
+	 * reply 객체 내부에는 또 다시 board 객체를 들고 있으므로
+	 * 게시글 검색을 한 번 하는데 무한한 참조가 이뤄진다.
+	 * 그래서 replys와 user 객체를 들고 올 때
+	 * 그 안에 있는 것은 무시하는 기법이 있는데 그게 jsonIgnore이다.
+	 * JsonIgnoreProperties안에 있는 변수는 
+	 * replys 객체 내부에 있는 변수를 가리킨다.
+	 * 
+	 * */
+	@OrderBy("id desc")
+	private List<Reply> replys;
 	
 	@ManyToOne(fetch = FetchType.EAGER) //EAGER = 무조건 조회해야 한다는 전략
 	@JoinColumn(name="userId")

@@ -11,10 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.model.Board;
+import com.cos.blog.model.Reply;
 import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.repository.BoardRepository;
+import com.cos.blog.repository.ReplyRepository;
 import com.cos.blog.repository.UserRepository;
 
 //이걸 붙여야 스프링이 bean에 등록해 줌(Ioc)
@@ -22,8 +25,14 @@ import com.cos.blog.repository.UserRepository;
 public class BoardService {
 
 	@Autowired
+	private UserRepository userRepository;
+	
+	
+	@Autowired
 	private BoardRepository boardRepository;
 	
+	@Autowired
+	private ReplyRepository replyRepository;
 
 	@Transactional
 	public void  글쓰기(Board board, User user) {
@@ -64,5 +73,30 @@ public class BoardService {
 		board.setTitle(requestBoard.getContent());
 		//이 함수 종료 시(service 종료) 트랜잭션 종료 됨. 이때 더티채킹이 발생. 자동 업데이트 됨(db쪽으로 flush)
 	}
+	
+	
+	@Transactional
+	public void 댓글쓰기(ReplySaveRequestDto replySaveRequestDto) {
+
+		User user= userRepository.findById(replySaveRequestDto.getUserId()).orElseThrow(()->{
+			return new IllegalArgumentException("댓글 작성 실패 : 유저 id를 찾을 수 없음");
+		});//영속화 완료
+		
+		
+		Board board = boardRepository.findById(replySaveRequestDto.getBoardId()).orElseThrow(()->{
+					return new IllegalArgumentException("댓글 작성 실패 : 게시글 id를 찾을 수 없음");
+				});//영속화 완료
+		
+		Reply reply = Reply.builder()
+				.user(user)
+				.board(board)
+				.content(replySaveRequestDto.getContent())
+				.build();
+	
+		replyRepository.save(reply);
+		
+	}
+	
+	
 	
 }

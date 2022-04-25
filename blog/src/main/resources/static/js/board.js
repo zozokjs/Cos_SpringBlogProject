@@ -15,6 +15,10 @@ let index = {
 		$("#btn-update").on("click", () => { 
 			this.update()
 		});
+		
+		$("#btn-reply-save").on("click", () => { 
+			this.replySave()
+		});
 	},
 	
 	
@@ -108,7 +112,41 @@ let index = {
 		
 	},
 
+	// 댓글 저장 처리
+	replySave: function() {
 
+		let data = {
+			
+			boardId: $("#boardId").val(),
+			userId: $("#userId").val(),
+			content: $("#reply-content").val()
+			
+		};
+		
+		//let boardId = $("#boardId").val();
+		//val() 붙이고 안 붙이고의 차이가 크다
+		
+		console.log(data);
+	
+		$.ajax({
+			//요청
+			type : "POST",
+			url : `/api/board/${data.boardId}/reply`, //요청 주소에 변수 넣었음
+			data : JSON.stringify(data), 
+			contentType :  "application/json; charset=utf-8", 
+			dataType : "json" 
+		}).done(function(response){
+			//성공
+			//alert("댓글 저장 됨");
+			//alert(response);
+			console.log(response);
+			location.href = `/board/${data.boardId}`;  //반드시 숫자 1 옆에 있는 ` 이걸 써야 함 L키 오른족에 있는 것과 엄연히 다름
+		}).fail(function(error){
+			//실패
+			alert(JSON.stringify(error));
+		});
+	
+	},
 }
 
 index.init();

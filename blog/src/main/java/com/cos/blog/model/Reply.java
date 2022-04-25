@@ -12,6 +12,8 @@ import javax.persistence.ManyToOne;
 
 import org.hibernate.annotations.CreationTimestamp;
 
+import com.cos.blog.dto.ReplySaveRequestDto;
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -28,7 +30,7 @@ public class Reply {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	@Column(nullable = false, length = 00)
+	@Column(nullable = false, length = 100)
 	private String content;
 	
 	
@@ -43,6 +45,7 @@ public class Reply {
 	
 	@CreationTimestamp
 	private Timestamp createDate;
+
 	
 	
 }

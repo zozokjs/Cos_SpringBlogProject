@@ -14,8 +14,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cos.blog.config.auth.PrincipalDetail;
+import com.cos.blog.dto.ReplySaveRequestDto;
 import com.cos.blog.dto.ResponseDto;
 import com.cos.blog.model.Board;
+import com.cos.blog.model.Reply;
 import com.cos.blog.model.RoleType;
 import com.cos.blog.model.User;
 import com.cos.blog.service.BoardService;
@@ -53,7 +55,23 @@ public class BoardApiController {
 		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
 		
 	}
-	
+
+	//댓글 등록
+	//데이터 받을 때 컨트롤러에서 dto를 만들어 주는 게 좋다.
+	//큰 프로젝트는 데이터가 많이 왔다갔다 하기 때문
+	//예를 들어 dto 클래스를 만들어서 그 객체에다 넣고 전달하는 식으로..
+	@PostMapping("/api/board/{boardId}/reply")
+	//주석은 dto 안 썼을 때
+	//public ResponseDto<Integer> replySave( @PathVariable int boardId,  @RequestBody Reply reply, @AuthenticationPrincipal PrincipalDetail principal) {
+    public ResponseDto<Integer> replySave(@RequestBody ReplySaveRequestDto replySaveRequestDto) {
+
+		//reply.setUser(principal.getUser());
+
+		//boardService.댓글쓰기(principal.getUser(), boardId, reply);
+		boardService.댓글쓰기(replySaveRequestDto);
+		
+		return new ResponseDto<Integer>(HttpStatus.OK.value(), 1); 
+	}
 	
 	
 }
