@@ -26,7 +26,7 @@
 
 	<div class="card">
 		<form>
-			<input type="hidden" id="userId"  value="${principal.user.id}"/>
+			<input type="hidden" id="userId"  value="${principal.userid}"/>
 			<input type="hidden" id="boardId"  value="${board.id}"/>
 			<div class="card-body">
 				<!-- form-control로 화면 끝까지 채운다 -->		

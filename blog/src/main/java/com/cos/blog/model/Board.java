@@ -5,6 +5,7 @@ package com.cos.blog.model;
 import java.sql.Timestamp;
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -49,7 +50,7 @@ public class Board {
 	//@ColumnDefault("0") //integer가 될거라서 홑따옴표가 없음. varchar로 만들거면 홑따옴표를 붙여야 함
 	private int count ; //조회수
 	
-	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER) //LAZY는 필요할 때만 들고 오라는 전략 
+	@OneToMany(mappedBy = "board", fetch = FetchType.EAGER, cascade = CascadeType.REMOVE) //LAZY는 필요할 때만 들고 오라는 전략 
 	//@JoinColumn(name="replyId") //필요 없음
 	/*하나의 게시글은 여러 개의 댓글을 가진다.
 	 * 게시글을 상세 조회할 때는 User, Board, Reply 테이블이 동시 조회되어야 한다.

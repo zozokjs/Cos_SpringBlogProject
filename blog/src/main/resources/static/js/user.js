@@ -37,11 +37,14 @@ let index = {
 			contentType :  "application/json; charset=utf-8", //요청 보내는 MIME 타입 명시
 			dataType : "json" //응답 받는 타입 명시.  json처럼 생겼으면 자바스크립트로 바꿔줌.
 		}).done(function(response){
-			//성공
-			alert("회원가입이 완료 됨");
-			//alert(response);
-			console.log(response);
-			location.href = "/";
+			
+			if(response.status === 500){
+				alert("회원가입 실패");
+			}else{
+				alert("회원가입이 완료 됨");
+				console.log(response);
+				location.href = "/";
+			}
 		}).fail(function(error){
 			//실패
 			alert(JSON.stringify(error));
