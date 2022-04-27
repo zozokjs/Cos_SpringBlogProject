@@ -147,6 +147,27 @@ let index = {
 		});
 	
 	},
+	
+	
+	// 댓글 삭제 처리
+	replyDelete: function(boardId, replyId) {
+
+		$.ajax({
+			//요청
+			type : "DELETE",
+			url : `/api/board/${boardId}/reply/${replyId}`, //요청 주소에 변수 넣었음
+			dataType : "json" 
+		}).done(function(response){
+			//성공
+			alert("댓글 삭제 성공");
+			console.log(response);
+			location.href = `/board/${boardId}`;  //반드시 숫자 1 옆에 있는 ` 이걸 써야 함 L키 오른족에 있는 것과 엄연히 다름
+		}).fail(function(error){
+			//실패
+			alert(JSON.stringify(error));
+		});
+	
+	},
 }
 
 index.init();

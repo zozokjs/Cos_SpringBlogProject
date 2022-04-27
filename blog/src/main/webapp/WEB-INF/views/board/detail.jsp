@@ -6,7 +6,7 @@
 	<button class="btn btn-secondary" onclick="history.back()">돌아가기</button>
 
 	<c:if test="${board.user.id == principal.user.id}">
-		<a href="/board/${board.id }/updateForm" class="btn btn-warning">수정</a>
+		<a href="/board/${board.id}/updateForm" class="btn btn-warning">수정</a>
 		<button id="btn-delete" class="btn btn-danger">삭제</button>
 	</c:if>
 
@@ -26,34 +26,34 @@
 
 	<div class="card">
 		<form>
-			<input type="hidden" id="userId"  value="${principal.userid}"/>
-			<input type="hidden" id="boardId"  value="${board.id}"/>
+			<input type="hidden" id="userId" value="${principal.user.id}" /> <input type="hidden" id="boardId" value="${board.id}" />
 			<div class="card-body">
-				<!-- form-control로 화면 끝까지 채운다 -->		
-				<textarea id = "reply-content" class="form-control" rows="1"></textarea>
+				<!-- form-control로 화면 끝까지 채운다 -->
+				<textarea id="reply-content" class="form-control" rows="1"></textarea>
 			</div>
 			<div class="card-footer">
-			<!-- button 타입을 명시 안 하면 submit이 일어남 -->
-				<button  type= "button"  id="btn-reply-save" class="btn btn-primary">등록</button>
+				<!-- button 타입을 명시 안 하면 submit이 일어남 -->
+				<button type="button" id="btn-reply-save" class="btn btn-primary">등록</button>
 			</div>
 		</form>
 	</div>
 	<br />
 	<div class="card">
 		<div class="card-header">댓글 리스트</div>
-		<!-- 내가 만든 아이디라고 구분하기 위해 작대기를 2개 붙임 -->
-		<ul id="reply--box" class="list-group">
+		<ul id="reply-box" class="list-group">
 
 			<c:forEach var="reply" items="${board.replys }">
-				<li id="reply--1" class="list-group-item d-flex justify-content-between">
+				<li id="reply-${reply.id}" class="list-group-item d-flex justify-content-between">
 					<div>${reply.content}</div>
 					<div class="d-flex">
 						<div class="font-italic">작성자 : ${reply.user.username} &nbsp;</div>
-						<button class="badge">삭제</button>
+						<button onClick="index.replyDelete(${board.id}, ${reply.id })" class="badge">삭제</button>
+						<!--버튼에 id를 안 줬음. 아이디 값이 다 달라서 하나의 리스너를 줄 수 없기 때문임  -->
 					</div>
 				</li>
 
 			</c:forEach>
+
 		</ul>
 	</div>
 
